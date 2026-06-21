@@ -1,0 +1,52 @@
+[
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Calendar.csv",
+        "p_sink_folder": "Calendar",
+        "p_sink_file": "calendar.csv"
+    },
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Customers.csv",
+        "p_sink_folder": "Customers",
+        "p_sink_file": "customers.csv"
+    },
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Product_Categories.csv",
+        "p_sink_folder": "Product_Categories",
+        "p_sink_file": "product_categories.csv"
+    },
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Product_Subcategories.csv",
+        "p_sink_folder": "Product_Subcategories",
+        "p_sink_file": "product_subcategories.csv"
+    },
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Products.csv",
+        "p_sink_folder": "Products",
+        "p_sink_file": "products.csv"
+    },
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Returns.csv",
+        "p_sink_folder": "Returns",
+        "p_sink_file": "returns.csv"
+    },
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Sales_2015.csv",
+        "p_sink_folder": "Sales_2015",
+        "p_sink_file": "sales_2015.csv"
+    },
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Sales_2016.csv",
+        "p_sink_folder": "Sales_2016",
+        "p_sink_file": "sales_2016.csv"
+    },
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Sales_2017.csv",
+        "p_sink_folder": "Sales_2017",
+        "p_sink_file": "sales_2017.csv"
+    },
+    {
+        "p_relative_url": "jiahern06/Azure-Data-Engineering-Project/refs/heads/main/datasets/AdventureWorks_Territories.csv",
+        "p_sink_folder": "Territories",
+        "p_sink_file": "territories.csv"
+    }
+]
