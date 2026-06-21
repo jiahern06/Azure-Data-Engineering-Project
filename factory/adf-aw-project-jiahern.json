@@ -1,0 +1,15 @@
+{
+	"name": "adf-aw-project-jiahern",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "94ee61e0-e56c-48b2-be04-13d899cc1ab7",
+		"tenantId": "ef7a487a-77ca-410a-803d-e426b62a587f"
+	}
+}
