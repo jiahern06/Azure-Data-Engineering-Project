@@ -99,3 +99,8 @@ Loaded files are written to the `bronze` file system in ADLS Gen2, grouped by su
 
 - The project is based on the AdventureWorks data engineering walkthrough in the linked video.
 - The repo is focused on ingestion and bronze-layer landing, so transformation logic is expected to happen later in Databricks or Synapse.
+
+## Diagram
+
+![Azure pipeline architecture](readme/azure_pipeline_architecture (1).drawio.png)
+
