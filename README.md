@@ -1,4 +1,5 @@
 # Azure Data Engineering Project
+Azure Data Engineering End-To-End Project | Azure Data Factory | Databricks | Pyspark | Azure Synapse Anlaytics
 
 This repository implements an AdventureWorks ingestion pipeline on Azure using **Azure Data Factory (ADF)** for orchestration and **Azure Synapse SQL scripts** for serving-layer setup.
 
