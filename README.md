@@ -15,8 +15,7 @@ This project:
 
 GitHub CSV files -> Azure Data Factory -> ADLS Gen2 bronze layer -> Databricks / Synapse analytics
 
-![End-to-end architecture](architecture.png)
-
+![Azure pipeline architecture](./azure_pipeline_architecture%20(1).drawio.png)
 ## Repository structure
 
 | Path | Purpose |
