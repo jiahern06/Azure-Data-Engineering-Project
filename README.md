@@ -1,6 +1,6 @@
 # Azure Data Engineering Project
 
-End-to-end Azure data engineering project built around the AdventureWorks dataset. The repo shows how to ingest CSV files from GitHub into Azure Data Lake Storage Gen2 with Azure Data Factory, using both a simple copy pipeline and a metadata-driven dynamic pipeline.
+End-to-end Azure data engineering project built around the AdventureWorks dataset. The repo shows how to ingest CSV files from GitHub into Azure Data Lake Storage Gen2 with Azure Data Factory, using a scalable metadata-driven pattern.
 
 ## Overview
 
@@ -14,6 +14,8 @@ This project:
 ## Architecture
 
 GitHub CSV files -> Azure Data Factory -> ADLS Gen2 bronze layer -> Databricks / Synapse analytics
+
+![End-to-end architecture](architecture.png)
 
 ## Repository structure
 
