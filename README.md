@@ -2,6 +2,23 @@
 
 This repository implements an AdventureWorks ingestion pipeline on Azure using **Azure Data Factory (ADF)** for orchestration and **Azure Synapse SQL scripts** for serving-layer setup.
 
+## Project overview
+
+This project ingests AdventureWorks CSV data from GitHub into ADLS Gen2 and organizes it for analytics:
+
+1. **Source**: AdventureWorks CSV files hosted in GitHub.
+2. **Ingestion**: ADF pipelines copy files from GitHub raw URLs.
+3. **Storage**: Files land in the ADLS **bronze** layer.
+4. **Serving prep**: Synapse SQL scripts create schema, external objects, and views over curated data.
+
+## Data architecture
+
+The implemented architecture follows a layered lakehouse-style flow:
+
+`GitHub CSV (source) -> ADF ingestion -> ADLS bronze -> (transform to silver outside this repo flow) -> Synapse gold views`
+
+![Azure pipeline architecture](holding/azure_pipeline_architecture%20(1).drawio.png)
+
 ## Current repository structure
 
 ```text
@@ -47,6 +64,19 @@ The control file format in `parameters/git.json`:
 - `p_relative_url`: path under `raw.githubusercontent.com`
 - `p_sink_folder`: target bronze folder
 - `p_sink_file`: target file name
+
+## Source data covered
+
+The parameter file currently maps these AdventureWorks datasets:
+
+- Calendar
+- Customers
+- Product Categories
+- Product Subcategories
+- Products
+- Returns
+- Sales (2015, 2016, 2017)
+- Territories
 
 ## Synapse layer
 
