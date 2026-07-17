@@ -1,0 +1,17 @@
+{
+	"name": "CREATE VIEWS GOLD",
+	"properties": {
+		"content": {
+			"query": "-- CREATE VIEW CALENDAR\n----------------------------\nCREATE VIEW gold.calendar\nAS \nSELECT\n* \nFROM \n    OPENROWSET(\n        BULK 'https://awprojectstorage.blob.core.windows.net/silver/Calendar/',\n        FORMAT = 'PARQUET'\n    ) as QUER1\nGO\n-- CREATE VIEW Customer\n----------------------------\nCREATE VIEW gold.customer\nAS \nSELECT\n* \nFROM \n    OPENROWSET(\n        BULK 'https://awprojectstorage.blob.core.windows.net/silver/Customers/',\n        FORMAT = 'PARQUET'\n    ) as QUER2\nGO\n-- CREATE VIEW products\n----------------------------\nCREATE VIEW gold.products\nAS \nSELECT\n* \nFROM \n    OPENROWSET(\n        BULK 'https://awprojectstorage.blob.core.windows.net/silver/Products/',\n        FORMAT = 'PARQUET'\n    ) as QUER3\nGO\n-- CREATE VIEW returns\n----------------------------\nCREATE VIEW gold.returns\nAS \nSELECT\n* \nFROM \n    OPENROWSET(\n        BULK 'https://awprojectstorage.blob.core.windows.net/silver/Returns/',\n        FORMAT = 'PARQUET'\n    ) as QUER4\nGO\n-- CREATE VIEW Sales\n----------------------------\nCREATE VIEW gold.sales\nAS \nSELECT\n* \nFROM \n    OPENROWSET(\n        BULK 'https://awprojectstorage.blob.core.windows.net/silver/Sales/',\n        FORMAT = 'PARQUET'\n    ) as QUER5\nGO\n-- CREATE VIEW Sub categories\n----------------------------\nCREATE VIEW gold.subcat\nAS \nSELECT\n* \nFROM \n    OPENROWSET(\n        BULK 'https://awprojectstorage.blob.core.windows.net/silver/Subcategories/',\n        FORMAT = 'PARQUET'\n    ) as QUER6\nGO\n-- CREATE VIEW territories\n----------------------------\nCREATE VIEW gold.territories\nAS \nSELECT\n* \nFROM \n    OPENROWSET(\n        BULK 'https://awprojectstorage.blob.core.windows.net/silver/Territories/',\n        FORMAT = 'PARQUET'\n    ) as QUER7\n\n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "awdatabase",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
