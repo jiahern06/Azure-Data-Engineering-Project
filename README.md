@@ -1,106 +1,68 @@
 # Azure Data Engineering Project
 
-End-to-end Azure data engineering project built around the AdventureWorks dataset. The repo shows how to ingest CSV files from GitHub into Azure Data Lake Storage Gen2 with Azure Data Factory, using a scalable metadata-driven pattern.
+This repository implements an AdventureWorks ingestion pipeline on Azure using **Azure Data Factory (ADF)** for orchestration and **Azure Synapse SQL scripts** for serving-layer setup.
 
-## Overview
+## Current repository structure
 
-This project:
+```text
+aw-data-pipeline/
+├── adf/
+│   ├── pipeline/
+│   ├── dataset/
+│   └── linkedService/
+├── synapse/
+│   └── sqlscipts/
+├── databricks/
+│   └── notebooks/
+├── parameters/
+│   └── git.json
+├── holding/
+└── README.md
+```
 
-1. Reads AdventureWorks CSV files from GitHub raw URLs.
-2. Copies them into an Azure Data Lake Storage Gen2 account.
-3. Organizes the loaded data in a bronze layer for downstream analytics.
-4. Uses Azure Data Factory linked services, datasets, and pipelines to orchestrate the flow.
+## What is implemented
 
-## Architecture
+| Area | Asset | Purpose |
+| --- | --- | --- |
+| ADF Pipeline | `adf/pipeline/GitToRaw.json` | Single-file copy from GitHub raw to ADLS bronze (`products/products.csv`) |
+| ADF Pipeline | `adf/pipeline/DynamicGitToRaw.json` | Metadata-driven multi-file ingestion using Lookup + ForEach + Copy |
+| ADF Dataset | `adf/dataset/ds_git_parameters.json` | Reads `git.json` from ADLS file system `parameters` |
+| ADF Dataset | `adf/dataset/ds_git_dynamic.json` | Parameterized HTTP source (`p_relative_url`) |
+| ADF Dataset | `adf/dataset/ds_sink_dynamic.json` | Parameterized ADLS bronze sink (`p_sink_folder`, `p_filename`) |
+| ADF Linked Service | `adf/linkedService/httplinkedservice.json` | GitHub raw endpoint (`https://raw.githubusercontent.com`) |
+| ADF Linked Service | `adf/linkedService/storage.json` | ADLS Gen2 account connection |
+| Synapse SQL | `synapse/sqlscipts/*.json` | Schema creation, external objects, and gold views |
 
+## Data ingestion design
 
-![Azure pipeline architecture](./azure_pipeline_architecture%20(1).drawio.png)
-## Repository structure
+`DynamicGitToRaw` works in this sequence:
 
-| Path | Purpose |
-| --- | --- |
-| `datasets/` | Source CSV files used by the project |
-| `dataset/` | ADF dataset JSON definitions |
-| `linkedService/` | ADF linked service definitions |
-| `pipeline/` | ADF pipeline definitions |
-| `factory/` | Azure Data Factory metadata |
-| `git.json` | File mapping metadata for the dynamic pipeline |
-| `publish_config.json` | ADF publish configuration |
+1. `LookupGit` reads the control records from `git.json`.
+2. `ForEachGit` iterates through each record (currently sequential).
+3. `DynamicCopy` reads CSV from GitHub raw using `p_relative_url`.
+4. Output lands in ADLS **bronze** file system using `p_sink_folder` and `p_sink_file`.
 
-## Data source
+The control file format in `parameters/git.json`:
 
-The project uses these AdventureWorks files:
+- `p_relative_url`: path under `raw.githubusercontent.com`
+- `p_sink_folder`: target bronze folder
+- `p_sink_file`: target file name
 
-- `AdventureWorks_Calendar.csv`
-- `AdventureWorks_Customers.csv`
-- `AdventureWorks_Product_Categories.csv`
-- `AdventureWorks_Product_Subcategories.csv`
-- `AdventureWorks_Products.csv`
-- `AdventureWorks_Returns.csv`
-- `AdventureWorks_Sales_2015.csv`
-- `AdventureWorks_Sales_2016.csv`
-- `AdventureWorks_Sales_2017.csv`
-- `AdventureWorks_Territories.csv`
+## Synapse layer
 
-## Pipelines
+The Synapse SQL scripts currently cover:
 
-### `pipeline1`
+1. Creating schema `gold`
+2. Creating external data source(s), file format, and external table
+3. Creating gold views over Parquet in the `silver` container
+4. Query example (`select * from gold.customer`)
 
-A basic copy pipeline that moves `AdventureWorks_Products.csv` from GitHub raw into:
+## Important repository note after cleanup
 
-`bronze/products/products.csv`
+Files that were not part of the active structure were moved to `holding/` (not deleted), including:
 
-### `DynamicGitToRaw`
+- Source CSV files (`holding/datasets/`)
+- Factory/integration runtime/credential exports
+- Architecture diagram image and publish config
 
-A metadata-driven pipeline that:
-
-1. Reads mappings from `git.json`
-2. Loops through each file definition
-3. Copies the source CSV from GitHub raw
-4. Writes it to the configured bronze folder and file name
-
-## Linked services
-
-- `httplinkedservice` - connects to `https://raw.githubusercontent.com`
-- `storage` - connects to the Azure Data Lake Storage Gen2 account
-
-## Datasets
-
-- `ds_http` - fixed GitHub raw source for the sample copy pipeline
-- `ds_git_dynamic` - dynamic GitHub raw source using a relative URL parameter
-- `ds_git_parameters` - lookup dataset that reads `git.json`
-- `ds_sink_dynamic` - dynamic bronze sink with folder and file parameters
-- `ds_bronze` - fixed bronze sink for the sample pipeline
-
-## How it works
-
-The dynamic pipeline uses `git.json` as its control file. Each record contains:
-
-- `p_relative_url` - source file path in GitHub
-- `p_sink_folder` - target folder in the bronze layer
-- `p_sink_file` - target file name
-
-This makes it easy to add new source files without redesigning the pipeline.
-
-## Output location
-
-Loaded files are written to the `bronze` file system in ADLS Gen2, grouped by subject area such as:
-
-- `bronze/Calendar`
-- `bronze/Customers`
-- `bronze/Products`
-- `bronze/Returns`
-- `bronze/Sales_2015`
-- `bronze/Sales_2016`
-- `bronze/Sales_2017`
-- `bronze/Territories`
-
-## Notes
-
-- The project is based on the AdventureWorks data engineering walkthrough in the linked video.
-- The repo is focused on ingestion and bronze-layer landing, so transformation logic is expected to happen later in Databricks or Synapse.
-
-## Diagram
-
-![Azure pipeline architecture](readme/azure_pipeline_architecture (1).drawio.png)
-
+If you use this repository itself as the GitHub raw source, make sure `parameters/git.json` paths match the real location of the CSV files (for example, update `p_relative_url` if files stay under `holding/datasets/`).
