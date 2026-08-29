@@ -47,17 +47,6 @@ Retail analytics on a dataset like AdventureWorks (customers, products, sales, r
 <img width="1211" height="481" alt="Azure-Data-Engineering-Project-architecture" src="https://github.com/user-attachments/assets/a7ee9400-a47e-4e4a-92ed-fb8cd214b49c" />
 
 
-```text
-┌──────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌──────────────┐
-│              │     │                   │     │                   │     │                   │     │                   │     │              │
-│ HTTP SOURCE  │────▶│  DATA INGESTION   │────▶│   BRONZE LAYER    │────▶│   SILVER LAYER    │────▶│    GOLD LAYER     │────▶│  REPORTING   │
-│              │     │                   │     │                   │     │                   │     │                   │     │              │
-│  GitHub raw  │     │ Azure Data        │     │ ADLS Gen2 —       │     │ Databricks/       │     │ Azure Synapse —   │     │  Power BI    │
-│  CSV files   │     │ Factory           │     │ raw data store    │     │ PySpark —         │     │ serverless SQL    │     │              │
-│  (10 files)  │     │ (metadata-driven) │     │                   │     │ transformed data  │     │ views + ext tables│     │              │
-└──────────────┘     └──────────────────┘     └──────────────────┘     └──────────────────┘     └──────────────────┘     └──────────────┘
-```
-
 **How to read the diagram**: 10 AdventureWorks CSV files are pulled from a GitHub raw HTTP endpoint by Azure Data Factory into an ADLS Gen2 **Bronze** container. Databricks reads the raw CSVs with PySpark, applies cleansing/derived-column logic, and writes Parquet into an ADLS Gen2 **Silver** container. Azure Synapse Analytics exposes that Silver Parquet data as **Gold** views and external tables via serverless SQL, ready for **Power BI** to consume.
 
 ---
