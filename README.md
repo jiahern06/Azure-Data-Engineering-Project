@@ -44,7 +44,7 @@ Retail analytics on a dataset like AdventureWorks (customers, products, sales, r
 
 ## 🏗️ Architecture
 
-![Uploading Azure-Data-Engineering-Project-architecture.png…]()
+<img width="1211" height="481" alt="Azure-Data-Engineering-Project-architecture" src="https://github.com/user-attachments/assets/a7ee9400-a47e-4e4a-92ed-fb8cd214b49c" />
 
 
 ```text
