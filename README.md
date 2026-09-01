@@ -361,14 +361,4 @@ AdventureWorks sample retail data, ingested from GitHub as 10 CSV files:
 
 ---
 
-## 🗺️ Roadmap & Known Limitations
 
-A few things worth flagging for anyone extending this project:
-
-- **Silver write mix-up (Returns)**: the notebook's Returns write cell calls `df_prod.write...option('Path', '.../Returns')` — the Products DataFrame, not `df_returns`, is what actually gets written to the Silver `Returns` folder. The intended `df_returns.write(...)` call is missing.
-- **Silver write mix-up (Customers)**: similarly, the final write cell sends `df_sales` to the Silver `Customers` path. The transformed customer DataFrame (`df_cust`, with the derived `fullName` column) is built and displayed earlier in the notebook but is never actually persisted to Silver.
-- **Product Categories never reaches Silver**: `df_cat` is read and displayed but has no corresponding `.write()` call — consistent with there being no `gold.categories` view in the Synapse script either.
-- **Non-idempotent writes**: every Silver write uses `.mode('append')`. Re-running the notebook without a dedupe/upsert step (or switching to `overwrite`/`MERGE`) will duplicate every row on each run.
-- **Hardcoded secret in source control**: `Create external table.json` includes `CREATE MASTER KEY ... ENCRYPTION BY PASSWORD = '...'` with a plaintext password committed to the repo — this should move to Azure Key Vault or a secure pipeline parameter.
-- **File extension mismatch**: Bronze sink files are written with the ADF `DelimitedTextWriteSettings` default `fileExtension: ".txt"`, even though the content is comma-delimited CSV — worth aligning for clarity.
-- **Power BI isn't in the repo**: the architecture diagram's reporting layer has no committed `.pbix` — presumably built directly against the Synapse serverless endpoint outside version control.
